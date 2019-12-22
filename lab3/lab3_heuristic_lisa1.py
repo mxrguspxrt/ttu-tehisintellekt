@@ -3,11 +3,10 @@ import json
 from dataclasses import dataclass, field
 from typing import Any
 
-
 @dataclass(order=True)
 class PrioritizedItem:
     priority: int
-    item: Any = field(compare=False)
+    item: Any=field(compare=False)
 
 
 def get_file_contents(path):
@@ -38,9 +37,6 @@ def get_processed_map(string_map):
     came_from = {}
     came_from[json.dumps(start)] = None
 
-    cost_so_far = {}
-    cost_so_far[json.dumps(start)] = 0
-
     took_steps_count = 0
 
     while not frontier.empty():
@@ -62,26 +58,15 @@ def get_processed_map(string_map):
                         neighbor_node
                     )
                     if can_travel_to_neighbor_node:
-
-                        new_cost = cost_so_far[json.dumps(current_node)] + 1
-                        if json.dumps(neighbor_node) not in cost_so_far or new_cost < cost_so_far[json.dumps(neighbor_node)]:
-                            cost_so_far[json.dumps(neighbor_node)] = new_cost
-                            heuristic_priority = get_heuristic_priority(
-                                neighbor_node,
-                                goal
-                            )
-                            frontier.put(
-                                PrioritizedItem(
-                                    priority=new_cost + heuristic_priority,
-                                    item=neighbor_node
-                                )
-                            )
-                            came_from[json.dumps(neighbor_node)] = current_node
+                        heuristic_priority = get_heuristic_priority(
+                            neighbor_node, 
+                            goal
+                        )
+                        frontier.put(PrioritizedItem(priority=heuristic_priority, item=neighbor_node))
+                        came_from[json.dumps(neighbor_node)] = current_node
 
                     is_diamond = get_is_diamond(
-                        proccessable_map,
-                        neighbor_node
-                    )
+                        proccessable_map, neighbor_node)
                     if is_diamond:
                         processed_map = {
                             "proccessable_map": proccessable_map,
@@ -99,7 +84,7 @@ def get_processed_map(string_map):
 
 
 def get_heuristic_priority(neighbor_node, goal):
-    return abs(neighbor_node["column_index"]-goal["column_index"]) + abs(neighbor_node["row_index"]-goal["row_index"])
+    return max(abs(neighbor_node["column_index"]-goal["column_index"]), abs(neighbor_node["row_index"]-goal["row_index"]))
 
 
 def get_is_diamond(proccessable_map, position):
@@ -149,7 +134,6 @@ def get_start(proccessable_map):
         for column_index in range(0, len(proccessable_map[0])):
             if proccessable_map[row_index][column_index] == "s":
                 return {"column_index": column_index, "row_index": row_index}
-
 
 def get_goal(proccessable_map):
     for row_index in range(0, len(proccessable_map)):
@@ -205,9 +189,9 @@ def map_to_string(proccessable_map):
 
 
 def main():
-    process_and_store_result("cave300x300-result-astar", lava_map1_string)
-    process_and_store_result("cave600x600-result-astar", lava_map2_string)
-    process_and_store_result("cave900x900-result-astar", lava_map3_string)
+    process_and_store_result("cave300x300-result-heuristic-lisa1", lava_map1_string)
+    process_and_store_result("cave600x600-result-heuristic-lisa1", lava_map2_string)
+    process_and_store_result("cave900x900-result-heuristic-lisa1", lava_map3_string)
 
 
 main()

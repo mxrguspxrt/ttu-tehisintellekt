@@ -99,7 +99,7 @@ def get_processed_map(string_map):
 
 
 def get_heuristic_priority(neighbor_node, goal):
-    return abs(neighbor_node["column_index"]-goal["column_index"]) + abs(neighbor_node["row_index"]-goal["row_index"])
+    return max(abs(neighbor_node["column_index"]-goal["column_index"]), abs(neighbor_node["row_index"]-goal["row_index"]))
 
 
 def get_is_diamond(proccessable_map, position):
@@ -205,9 +205,9 @@ def map_to_string(proccessable_map):
 
 
 def main():
-    process_and_store_result("cave300x300-result-astar", lava_map1_string)
-    process_and_store_result("cave600x600-result-astar", lava_map2_string)
-    process_and_store_result("cave900x900-result-astar", lava_map3_string)
+    process_and_store_result("cave300x300-result-astar-lisa1", lava_map1_string)
+    process_and_store_result("cave600x600-result-astar-lisa1", lava_map2_string)
+    process_and_store_result("cave900x900-result-astar-lisa1", lava_map3_string)
 
 
 main()
