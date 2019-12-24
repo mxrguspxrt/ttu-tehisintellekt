@@ -55,4 +55,28 @@ Path has steps: 1844
 Wrote result to file:  cave900x900-result-astar-lisa1
 ```
 
+Allowing movements in diagonals caused less iterations to process and shorter paths.
 
+```
+ python3 lab3_heuristic_lisa2.py 
+Took iterations to process: 2064
+Path has steps: 538
+Wrote result to file:  cave300x300-result-heuristic-lisa2
+Took iterations to process: 9211
+Path has steps: 1249
+Wrote result to file:  cave600x600-result-heuristic-lisa2
+Took iterations to process: 10474
+Path has steps: 1722
+Wrote result to file:  cave900x900-result-heuristic-lisa2
+
+$ python3 lab3_astar_lisa2.py 
+Took iterations to process: 13680
+Path has steps: 379
+Wrote result to file:  cave300x300-result-astar-lisa2
+Took iterations to process: 99639
+Path has steps: 872
+Wrote result to file:  cave600x600-result-astar-lisa2
+Took iterations to process: 162543
+Path has steps: 1234
+Wrote result to file:  cave900x900-result-astar-lisa2
+```
