@@ -4,13 +4,17 @@ import time
 
 def main():
     queens4 = Queens(queens_count=4)
-    # queens4 = Queens(queens_count=10)
-    # queens100 = Queens(queens_count=100)
-
     queens4.print_best_local_optimum()
-    print(queens4.queens_map)
-    # queens4.print_best_local_optimum()
-    # queens100.print_best_local_optimum()
+
+    queens20 = Queens(queens_count=20)
+    queens20.print_best_local_optimum()
+
+    queens30 = Queens(queens_count=30)
+    queens30.print_best_local_optimum()
+
+    queens50 = Queens(queens_count=50)
+    queens50.print_best_local_optimum()
+
 
 
 class Queens:
@@ -44,13 +48,13 @@ class Queens:
         return string_map
 
     def get_row_as_string(self, row_index):
-        parts = ["□"]*self.queens_count
+        parts = ["▢"]*self.queens_count
 
         for column_index in range(0, self.queens_count):
             if self.queens_map[column_index] == row_index:
-                parts[column_index] = "♕"
+                parts[column_index] = "▇"
 
-        return "".join(parts)
+        return " ".join(parts)
 
     def print_best_local_optimum(self):
         print("Original map:", self.get_queens_map_as_string(),
@@ -65,15 +69,33 @@ class Queens:
     def get_fixed_map(self):
         previous_best_move = self.get_best_move() 
 
+        no_improvement_for_iterations_count = 0
+
         while True:
             if previous_best_move.conflicts_count == 0:
                 return previous_best_move.queens
 
             next_best_move = previous_best_move.queens.get_best_move()
 
-            if next_best_move.conflicts_count < previous_best_move.conflicts_count:
+            if next_best_move.conflicts_count >= previous_best_move.conflicts_count:
+               no_improvement_for_iterations_count = no_improvement_for_iterations_count + 1 
+               print("No improvement for iteration: ", no_improvement_for_iterations_count) 
+            if no_improvement_for_iterations_count > self.queens_count:
+                next_best_move = previous_best_move.queens.get_random_suffle_to_break_out_of_local_optimum()
+                previous_best_move = next_best_move
+                no_improvement_for_iterations_count = 0
+
+            if next_best_move.conflicts_count <= previous_best_move.conflicts_count:
+                print("\n", next_best_move.queens.get_queens_map_as_string(), "\nConflicts: ", next_best_move.queens.get_conflicts_count())
                 previous_best_move = next_best_move
 
+    def get_random_suffle_to_break_out_of_local_optimum(self):
+        new_map = self.queens_map.copy()
+        for column_index in range(0, self.queens_count):
+            new_map[column_index] = random.choice(list(range(0, self.queens_count)))
+
+        queens = Queens(queens_count=self.queens_count, queens_map=new_map)
+        return AfterMove(queens=queens, conflicts_count=queens.get_conflicts_count())                
 
     def get_best_move(self):
         after_best_move = AfterMove(queens=self, conflicts_count=self.get_conflicts_count())
@@ -84,7 +106,6 @@ class Queens:
             for new_row_index in set(range(0, self.queens_count)) - set([current_value]):
                 after_next_move = self.get_after_move(Move(column_index=column_index, new_row_index=new_row_index))
                 if after_next_move.conflicts_count <= after_best_move.conflicts_count:
-                    print("lol", after_next_move.queens.get_queens_map_as_string(), after_next_move.queens.get_conflicts_count())
                     after_best_move = after_next_move
 
         return after_best_move
@@ -102,14 +123,19 @@ class Queens:
         queens_map = self.queens_map
         conflict_count = 0
         # iterate over map
-        for a_column_index in range(0, queens_count):
+        a_column_indexes = list(range(0, queens_count))
+        random.shuffle(a_column_indexes)
+        for a_column_index in a_column_indexes:
             # iterate over map that is only below the current row (no double counting)
-            for b_column_index in range(a_column_index+1, queens_count):
+            b_column_indexes = list(range(0, queens_count))
+            random.shuffle(b_column_indexes)
+            for b_column_index in b_column_indexes:
                 # check if they conflict
-                has_conflict = get_has_conflict(
-                    [a_column_index, queens_map[a_column_index]], [b_column_index, queens_map[b_column_index]])
-                if has_conflict:
-                    conflict_count += 1
+                if a_column_index != b_column_index:
+                    has_conflict = get_has_conflict(
+                        [a_column_index, queens_map[a_column_index]], [b_column_index, queens_map[b_column_index]])
+                    if has_conflict:
+                        conflict_count += 1
         return conflict_count
 
 
