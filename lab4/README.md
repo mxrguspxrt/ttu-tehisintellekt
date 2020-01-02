@@ -5,5 +5,6 @@ Mu arvuti oli võimeline vabalt lahendama 20 lipuga ülesannet paari sekundiga k
 
 
 Tegin tähelepaneku, et vahest oli konflikt kahe lipu vahel, aga liigutati hoopis 3ndat edasi-tagasi, mis tundus maru veider. Järsku oleks kaval siis lihtsalt kahte konfliktis lippu randomiga liigutada?
+EDIT: Pärast koodi parandust - random rida ja random columni järjest parandatakse - hakkas kiiremini ja paremini tööle. YAY!
 
 Hetkel loetakse konflikt kahte-pidi A -> B ja B -> A vahel, aga mitte A -> A vahel - st konfliktide arv on alati paaris number.

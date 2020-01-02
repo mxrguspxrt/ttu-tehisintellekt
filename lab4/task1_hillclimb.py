@@ -100,10 +100,16 @@ class Queens:
     def get_best_move(self):
         after_best_move = AfterMove(queens=self, conflicts_count=self.get_conflicts_count())
 
-        for column_index in range(0, self.queens_count):
-            current_value = self.queens_map[column_index]
+        column_indexes = list(range(0, self.queens_count))
+        random.shuffle(column_indexes)
 
-            for new_row_index in set(range(0, self.queens_count)) - set([current_value]):
+        for column_index in column_indexes:
+            current_value = self.queens_map[column_index]
+            
+            row_indexes = list(set(range(0, self.queens_count)) - set([current_value]))
+            random.shuffle(row_indexes)
+
+            for new_row_index in row_indexes:
                 after_next_move = self.get_after_move(Move(column_index=column_index, new_row_index=new_row_index))
                 if after_next_move.conflicts_count <= after_best_move.conflicts_count:
                     after_best_move = after_next_move
