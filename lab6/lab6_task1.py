@@ -1,44 +1,3 @@
-# def pure_mc(pos, N=200):
-#     # kõik käigud algseisus
-#     my_side = pos["to_move"]
-#     initial_moves = moves(pos)
-#     # loendurid iga käigu jaoks
-#     win_counts = dict((move, 0) for move in initial_moves)
-
-#     for move in initial_moves:
-#         for i in range(N):
-#             # mängi juhuslikult seis kuni lõpuni
-#             res = simulate(pos, move, my_side)
-#             if res == WIN:
-#                 win_counts[move] += 1
-#             elif res == DRAW:
-#                 win_counts[move] += 0.5
-
-#     # leia suurima võitude arvuga käik, tagasta
-
-#     # ...
-
-
-# def play_game(pos, player_side = "X"):
-#     playing = True
-#     while playing:
-#         if pos["to_move"] == player_side:
-#             # prindi info seisu kohta
-#             dump_pos(pos)
-#             movestr = input("Your move? ")
-#             # tõlgi kasutaja tekst oma sisemisse käiguformaati (kui vaja)
-#             move = parse_move(movestr)
-#         else:
-#             move = pure_mc(pos)
-
-#         pos = make_move(pos, move)
-#         # kontrolli kas mäng sai läbi
-#         if is_over(pos):
-#             playing = False
-
-# play_game(starting_pos)
-
-
 import random
 
 
@@ -90,7 +49,7 @@ class Game:
                 move_to_column_index = int(input("Your move? ")) - 1
             else:
                 move_to_column_index = self.get_best_move(allowed_simulations_count=200)
-                
+
             self.make_move(move=move_to_column_index)
 
             winner = self.get_winner()
