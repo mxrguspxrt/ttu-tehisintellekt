@@ -90,6 +90,8 @@ class Game:
             if win_counts[initial_move] > win_counts[best_move]:
                 best_move = initial_move
 
+        print_next_step_probabilities(win_counts=win_counts)
+
         return best_move
 
     def get_simulation_winner(self, move=None):
@@ -162,5 +164,14 @@ class Game:
                 available_moves.append(i)
         return available_moves
 
+
+def print_next_step_probabilities(win_counts=None):
+    total_sum = 0
+    for possible_step in win_counts:
+      total_sum += win_counts[possible_step]
+
+    print("Possible steps to do with win probs are: ")
+    for possible_step in win_counts:
+      print("Step ", str(possible_step), "has win prob:", str(win_counts[possible_step]/total_sum))
 
 main()
