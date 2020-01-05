@@ -1,7 +1,7 @@
 
 
 control_table = """
-1 ? ? 0
+1 ? 1 .
 1 1 1 0
 0 0 0 0
 """
@@ -51,6 +51,11 @@ class KnowledgeBase:
 
     def print_info(self):
         kb = self.get_kb()
+
+        for columns in self.rows:
+          print("table: ", " ".join(columns))
+
+
         print("KB: ", kb)
 
         for row_index in range(0, self.rows_count):
@@ -81,7 +86,8 @@ class KnowledgeBase:
 
       for cnf in kb: 
         for dnf in cnf:
-          candidates.append(dnf+(-alpha,))
+          new_candidate = candidates.append(dnf+(-alpha,))
+          
 
       print("Candidates", candidates)
 
@@ -91,15 +97,8 @@ class KnowledgeBase:
           return False 
 
         next = candidates.pop()
-        skip_candidate = False
-
-        for p in processed:
-          if is_subset(next, p):
-            print("Skipping candidate", next, "because is subset of", p)
-            skip_candidate = True 
-            break 
-
-        if skip_candidate:
+        if next in processed:
+          print("Next already processed and skipping", next)
           continue 
 
         processed.append(next)
