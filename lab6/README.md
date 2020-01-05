@@ -1,5 +1,6 @@
 Winner: gets 4 in diagonal, row or column.
 
+```
 Possible steps to do with win probs are: 
 Step  0 has win prob: 0.1576923076923077
 Step  1 has win prob: 0.21978021978021978
@@ -15,3 +16,4 @@ Winner is:  Y
 | X YXY |
 | Y XYXX|
 |1234567|
+```
