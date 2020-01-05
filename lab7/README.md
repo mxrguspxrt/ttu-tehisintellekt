@@ -22,6 +22,8 @@ Optimizations:
 RESULT:
 
 ```
+python3 resolution_task1.py | egrep "table|Resolution"
+
 Inited table
 table:  1 ? 1 .
 table:  1 1 1 0
