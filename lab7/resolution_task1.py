@@ -73,8 +73,11 @@ class KnowledgeBase:
     def get_has_mine(self, e_id=None, kb=None):
         kb_without_duplicates = []
         for dnf in kb:
-            if dnf not in kb_without_duplicates:
-                kb_without_duplicates.append(dnf)
+            sorted_dnf = list(dnf)
+            sorted_dnf.sort()
+            sorted_dnf = tuple(sorted_dnf)
+            if sorted_dnf not in kb_without_duplicates:
+                kb_without_duplicates.append(sorted_dnf)
 
         kb_without_duplicates.sort(key=lambda item: len(item))
 
@@ -86,8 +89,7 @@ class KnowledgeBase:
 
       for cnf in kb: 
         for dnf in cnf:
-          new_candidate = candidates.append(dnf+(-alpha,))
-          
+          candidates.append(dnf+(-alpha,))
 
       print("Candidates", candidates)
 
