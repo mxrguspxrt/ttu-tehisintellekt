@@ -1,0 +1,2 @@
+swipl -s prolog.pl 
+
